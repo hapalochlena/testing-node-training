@@ -1,7 +1,6 @@
 {
   "name": "testing-with-jest",
   "version": "1.0.0",
-  "description": "",
   "main": "cloneArray.js",
   "scripts": {
     "test": "jest --coverage"
@@ -11,5 +10,9 @@
   "license": "ISC",
   "devDependencies": {
     "jest": "^29.5.0"
-  }
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "description": ""
 }
