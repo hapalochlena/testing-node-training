@@ -1,6 +1,11 @@
 const request = require('supertest');
 const app = require('./app')
 
+// * TDD
+// * => MAKE UNIT TESTS AS EASY AS POSSIBLE TO PASS
+// * => WRITE MANY TESTS
+// * (instead of one big test that covers everything)
+
 describe("POST /users", () => {
 
   describe("given a username and password", () => {
@@ -11,18 +16,43 @@ describe("POST /users", () => {
 
     // 3) should respond with a 200 status code
     test("should respond with a 200 status code", async () => {
-      const response = await request(app) // 'request' = supertest function; pass in the HTTP server object = in this case 'app' from express
+      const response = await request(app) // * 'request' = supertest function => "imagine this request was made to the server" ; pass in the HTTP server object = in this case 'app' from express
                               .post('/users') // we want to make a POST request to the /users endpoint...
                               .send({ username: "username", password: "password" }) // ...sending this data
       expect(response.statusCode).toBe(200)
     })
 
-    // 4) should specify json in the content type header (can be important e.g. when you use high-level library like Axios to convert json into js object)
+    // 4) should specify json in the content type header that is returned from the server (can be important e.g. when you use high-level library like Axios to convert json into js object)
+    test("should specify json in the content type header", async () => {
+      // this part same as above
+      const response = await request(app)
+                              .post('/users')
+                              .send({ username: "username", password: "password" })
+      expect(response.headers['content-type']).toEqual(expect.stringContaining("json")) // 'expect.stringContaining' = jest function
+    })
+
+    // 5) server should send back a json object with a user id (ignore the value of the id key for now)
+    test("response has userId", async () => {
+      const response = await request(app)
+                              .post('/users')
+                              .send({ username: "username", password: "password" })
+      expect(response.body.userId).toBeDefined() // not test the value, just make sure userId does come back
+    })
   })
 
+  // ! my own test
+  // checks that request does indeed send username & password
+
+  // 6) when things go wrong: user doesn't send username or password to the server
   describe("when the username and password is missing", () => {
-    // should respond with a status code of 400
+    test("should respond with a status code of 400", async () => {
+      const response = await request(app).post('/users').send({
+        username: "username"
+      })
+      expect(response.statusCode).toBe(400)
+    })
   })
+  // => actual code needs to check if a password was passed to this endpoint (respond with 400 if not)
 
 })
 
