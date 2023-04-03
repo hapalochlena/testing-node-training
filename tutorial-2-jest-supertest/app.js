@@ -8,6 +8,9 @@ app.post('/users', (req, res) => {
 
 })
 
-module.exports = app
+app.get('/test', (req, res) => {
+  res.send("hi")
+})
 
-"test blabla"
+
+module.exports = app

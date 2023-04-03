@@ -1,4 +1,4 @@
-const supertest = require('supertest').request() // ! had to add '.request()'
+const request = require('supertest');
 const app = require('./app')
 
 describe("POST /users", () => {
