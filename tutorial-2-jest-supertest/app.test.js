@@ -70,7 +70,6 @@ describe("POST /users", () => {
 
     })
   })
-  // => actual code needs to check if a password was passed to this endpoint (respond with 400 if not)
 
 })
 
