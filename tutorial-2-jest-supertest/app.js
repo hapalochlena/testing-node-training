@@ -12,12 +12,12 @@ app.post('/users', (req, res) => {
   // res.send({userId: 0}) // pass test 5)
 
   // test 6):
-  const { password } = req.body // const password = req.body.password
-  if (!password) {
+  const { password, username } = req.body // const password = req.body.password
+  if (!password || !username ) {
     res.sendStatus(400)
     return
   }
-  res.send({userId: 0})
+  res.send({userId: 0}) // (in reality, we would send back the id assigned by the DB)
 })
 
 

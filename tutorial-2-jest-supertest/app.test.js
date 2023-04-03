@@ -40,16 +40,34 @@ describe("POST /users", () => {
     })
   })
 
-  // ! my own test
-  // checks that request does indeed send username & password
+
+  // * CHECKING FOR USERNAME & PASSWORD => THE REQUEST IS WHAT THE USER SENDS US!!!
+  // * WE ONLY WRITE THE CODE FOR WHAT THE SERVER SENDS BACK = THE RESPONSE
+  // * ==> All we can do is CHECK whether the request contains username & password
+  // * ... and send back 400 BAD REQUEST if it doesn't!
 
   // 6) when things go wrong: user doesn't send username or password to the server
   describe("when the username and password is missing", () => {
     test("should respond with a status code of 400", async () => {
-      const response = await request(app).post('/users').send({
-        username: "username"
-      })
-      expect(response.statusCode).toBe(400)
+      // just test for missing password:
+      // const response = await request(app)
+      //                         .post('/users')
+      //                         .send({ username: "username" })
+      // expect(response.statusCode).toBe(400) // ! 400 => bad request :)
+
+      // making an array of 3 options for what the body contains
+      const bodyData = [
+        { username: "username" }, // only username, but not password
+        { password: "password" }, // only password, but not username
+        {} // no password or username
+      ]
+      // iterate over the 3 options
+      for (const body of bodyData) {
+        const response = await request(app).post('/users').send(body)
+        expect(response.statusCode).toBe(400)
+      }
+
+
     })
   })
   // => actual code needs to check if a password was passed to this endpoint (respond with 400 if not)
